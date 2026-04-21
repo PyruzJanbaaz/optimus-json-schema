@@ -1,0 +1,377 @@
+[
+  {
+    "id": "show-salary-if-engineering",
+    "description": "Show salary field when Engineering department is selected",
+    "when": {
+      "field": "department",
+      "operator": "equals",
+      "value": "EG"
+    },
+    "then": [
+      {
+        "type": "show",
+        "field": "salaryExpectation"
+      }
+    ]
+  },
+  {
+    "id": "hide-salary-if-not-engineering",
+    "description": "Hide salary field when non-Engineering department is selected",
+    "when": {
+      "field": "department",
+      "operator": "notEquals",
+      "value": "EG"
+    },
+    "then": [
+      {
+        "type": "hide",
+        "field": "salaryExpectation"
+      }
+    ]
+  },
+  {
+    "id": "show-position-for-sales",
+    "description": "Show position field for Sales department",
+    "when": {
+      "field": "department",
+      "operator": "equals",
+      "value": "SL"
+    },
+    "then": [
+      {
+        "type": "show",
+        "field": "position"
+      }
+    ]
+  },
+  {
+    "id": "show-position-for-marketing",
+    "description": "Show position field for Marketing department",
+    "when": {
+      "field": "department",
+      "operator": "equals",
+      "value": "MR"
+    },
+    "then": [
+      {
+        "type": "show",
+        "field": "position"
+      }
+    ]
+  },
+  {
+    "id": "show-position-for-hr",
+    "description": "Show position field for HR department",
+    "when": {
+      "field": "department",
+      "operator": "equals",
+      "value": "HR"
+    },
+    "then": [
+      {
+        "type": "show",
+        "field": "position"
+      }
+    ]
+  },
+  {
+    "id": "require-phone-when-sms-checked",
+    "description": "Make phone field required when SMS notifications are opted in",
+    "when": {
+      "field": "sms",
+      "operator": "equals",
+      "value": true
+    },
+    "then": [
+      {
+        "type": "show",
+        "field": "phone"
+      },
+      {
+        "type": "setRequired",
+        "field": "phone"
+      }
+    ]
+  },
+  {
+    "id": "make-phone-optional-when-sms-unchecked",
+    "description": "Make phone field optional when SMS notifications are not opted in",
+    "when": {
+      "field": "sms",
+      "operator": "equals",
+      "value": false
+    },
+    "then": [
+      {
+        "type": "hide",
+        "field": "phone"
+      },
+      {
+        "type": "setOptional",
+        "field": "phone"
+      }
+    ]
+  },
+  {
+    "id": "require-postal-for-germany",
+    "description": "Make postal code required when Germany is selected",
+    "when": {
+      "field": "country",
+      "operator": "equals",
+      "value": "de"
+    },
+    "then": [
+      {
+        "type": "show",
+        "field": "postalCode"
+      },
+      {
+        "type": "setRequired",
+        "field": "postalCode"
+      }
+    ]
+  },
+  {
+    "id": "require-postal-for-france",
+    "description": "Make postal code required when France is selected",
+    "when": {
+      "field": "country",
+      "operator": "equals",
+      "value": "fr"
+    },
+    "then": [
+      {
+        "type": "show",
+        "field": "postalCode"
+      },
+      {
+        "type": "setRequired",
+        "field": "postalCode"
+      }
+    ]
+  },
+  {
+    "id": "make-postal-optional-for-us",
+    "description": "Make postal code optional when USA is selected",
+    "when": {
+      "field": "country",
+      "operator": "equals",
+      "value": "us"
+    },
+    "then": [
+      {
+        "type": "show",
+        "field": "postalCode"
+      },
+      {
+        "type": "setOptional",
+        "field": "postalCode"
+      }
+    ]
+  },
+  {
+    "id": "make-postal-optional-for-uk",
+    "description": "Make postal code optional when UK is selected",
+    "when": {
+      "field": "country",
+      "operator": "equals",
+      "value": "gb"
+    },
+    "then": [
+      {
+        "type": "show",
+        "field": "postalCode"
+      },
+      {
+        "type": "setOptional",
+        "field": "postalCode"
+      }
+    ]
+  },
+  {
+    "id": "disable-field-on-high-salary",
+    "description": "Disable position field when salary exceeds threshold",
+    "when": {
+      "field": "salaryExpectation",
+      "operator": "greaterThan",
+      "value": 150000
+    },
+    "then": [
+      {
+        "type": "disable",
+        "field": "position"
+      }
+    ]
+  },
+  {
+    "id": "enable-field-on-normal-salary",
+    "description": "Enable position field when salary is within normal range",
+    "when": {
+      "field": "salaryExpectation",
+      "operator": "lessThanOrEqual",
+      "value": 150000
+    },
+    "then": [
+      {
+        "type": "enable",
+        "field": "position"
+      }
+    ]
+  },
+  {
+    "id": "require-feedback-when-terms-agreed",
+    "description": "Make feedback required when terms are agreed",
+    "when": {
+      "field": "terms",
+      "operator": "isTrue"
+    },
+    "then": [
+      {
+        "type": "show",
+        "field": "feedback"
+      },
+      {
+        "type": "setRequired",
+        "field": "feedback"
+      }
+    ]
+  },
+  {
+    "id": "hide-feedback-when-terms-not-agreed",
+    "description": "Hide feedback when terms are not agreed",
+    "when": {
+      "field": "terms",
+      "operator": "isFalse"
+    },
+    "then": [
+      {
+        "type": "hide",
+        "field": "feedback"
+      },
+      {
+        "type": "setOptional",
+        "field": "feedback"
+      }
+    ]
+  },
+  {
+    "id": "check-if-email-empty",
+    "description": "Show warning if email field is empty",
+    "when": {
+      "field": "email",
+      "operator": "isEmpty"
+    },
+    "then": [
+      {
+        "type": "setRequired",
+        "field": "email"
+      }
+    ]
+  },
+  {
+    "id": "check-if-email-not-empty",
+    "description": "Allow field when email has value",
+    "when": {
+      "field": "email",
+      "operator": "isNotEmpty"
+    },
+    "then": [
+      {
+        "type": "show",
+        "field": "emailNotifications"
+      }
+    ]
+  },
+  {
+    "id": "contains-specific-text",
+    "description": "Show field when name contains 'Dr'",
+    "when": {
+      "field": "firstName",
+      "operator": "contains",
+      "value": "Dr"
+    },
+    "then": [
+      {
+        "type": "show",
+        "field": "title"
+      }
+    ]
+  },
+  {
+    "id": "starts-with-pattern",
+    "description": "Show field when email starts with specific domain",
+    "when": {
+      "field": "email",
+      "operator": "startsWith",
+      "value": "admin@"
+    },
+    "then": [
+      {
+        "type": "setRequired",
+        "field": "adminLevel"
+      }
+    ]
+  },
+  {
+    "id": "in-list-values",
+    "description": "Show field when department is in specific list",
+    "when": {
+      "field": "department",
+      "operator": "in",
+      "value": ["EG", "MR"]
+    },
+    "then": [
+      {
+        "type": "show",
+        "field": "projectAllocation"
+      }
+    ]
+  },
+  {
+    "id": "age-greater-than",
+    "description": "Show age verification when age is greater than 18",
+    "when": {
+      "field": "age",
+      "operator": "greaterThan",
+      "value": 18
+    },
+    "then": [
+      {
+        "type": "show",
+        "field": "ageVerification"
+      }
+    ]
+  },
+  {
+    "id": "age-less-than",
+    "description": "Show parental consent when age is less than 18",
+    "when": {
+      "field": "age",
+      "operator": "lessThan",
+      "value": 18
+    },
+    "then": [
+      {
+        "type": "show",
+        "field": "parentalConsent"
+      }
+    ]
+  },
+  {
+    "id": "set-value-action",
+    "description": "Set a default value based on condition",
+    "when": {
+      "field": "country",
+      "operator": "equals",
+      "value": "de"
+    },
+    "then": [
+      {
+        "type": "setValue",
+        "field": "currency",
+        "value": "EUR"
+      }
+    ]
+  }
+]
+

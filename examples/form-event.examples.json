@@ -1,0 +1,414 @@
+[
+  {
+    "id": "page-load-load-countries",
+    "description": "Load countries on page load",
+    "trigger": {
+      "type": "onPageLoad"
+    },
+    "actions": [
+      {
+        "type": "methodCall",
+        "method": "UiControllerService.getCountries",
+        "args": {}
+      }
+    ]
+  },
+  {
+    "id": "page-load-load-departments",
+    "description": "Load departments on page load",
+    "trigger": {
+      "type": "onPageLoad"
+    },
+    "actions": [
+      {
+        "type": "methodCall",
+        "method": "UiControllerService.getDepartments",
+        "args": {},
+        "onSuccess": [
+          {
+            "type": "updateFieldOptions",
+            "field": "department"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "country-change-load-states",
+    "description": "Load states when country changes",
+    "trigger": {
+      "type": "onChange",
+      "field": "country"
+    },
+    "actions": [
+      {
+        "type": "methodCall",
+        "method": "UiControllerService.getStates",
+        "args": {
+          "country": "{{form.country}}"
+        },
+        "onSuccess": [
+          {
+            "type": "updateFieldOptions",
+            "field": "state"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "department-change-load-positions-eg",
+    "description": "Load positions for Engineering department",
+    "trigger": {
+      "type": "onChange",
+      "field": "department"
+    },
+    "actions": [
+      {
+        "type": "methodCall",
+        "method": "UiControllerService.getPositions",
+        "args": {
+          "department": "EG"
+        },
+        "onSuccess": [
+          {
+            "type": "updateFieldOptions",
+            "field": "position"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "department-change-load-positions-sl",
+    "description": "Load positions for Sales department",
+    "trigger": {
+      "type": "onChange",
+      "field": "department"
+    },
+    "actions": [
+      {
+        "type": "methodCall",
+        "method": "UiControllerService.getPositions",
+        "args": {
+          "department": "SL"
+        },
+        "onSuccess": [
+          {
+            "type": "updateFieldOptions",
+            "field": "position"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "department-change-load-positions-mr",
+    "description": "Load positions for Marketing department",
+    "trigger": {
+      "type": "onChange",
+      "field": "department"
+    },
+    "actions": [
+      {
+        "type": "methodCall",
+        "method": "UiControllerService.getPositions",
+        "args": {
+          "department": "MR"
+        },
+        "onSuccess": [
+          {
+            "type": "updateFieldOptions",
+            "field": "position"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "department-change-load-positions-hr",
+    "description": "Load positions for HR department",
+    "trigger": {
+      "type": "onChange",
+      "field": "department"
+    },
+    "actions": [
+      {
+        "type": "methodCall",
+        "method": "UiControllerService.getPositions",
+        "args": {
+          "department": "HR"
+        },
+        "onSuccess": [
+          {
+            "type": "updateFieldOptions",
+            "field": "position"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "email-blur-validate",
+    "description": "Validate email when field loses focus",
+    "trigger": {
+      "type": "onBlur",
+      "field": "email"
+    },
+    "actions": [
+      {
+        "type": "methodCall",
+        "method": "EmployeeApi.validateEmail",
+        "args": {
+          "email": "{{form.email}}"
+        },
+        "onError": [
+          {
+            "type": "showMessage",
+            "level": "error",
+            "message": "Email already exists in the system"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "password-blur-validate",
+    "description": "Validate password strength on blur",
+    "trigger": {
+      "type": "onBlur",
+      "field": "password"
+    },
+    "actions": [
+      {
+        "type": "methodCall",
+        "method": "SecurityService.validatePassword",
+        "args": {
+          "password": "{{form.password}}"
+        },
+        "onError": [
+          {
+            "type": "showMessage",
+            "level": "warning",
+            "message": "Password is too weak. Use uppercase, numbers, and special characters"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "salary-change-calculate-tax",
+    "description": "Calculate tax on salary change",
+    "trigger": {
+      "type": "onChange",
+      "field": "salaryExpectation"
+    },
+    "actions": [
+      {
+        "type": "methodCall",
+        "method": "CalculationService.calculateTax",
+        "args": {
+          "salary": "{{form.salaryExpectation}}",
+          "country": "{{form.country}}"
+        },
+        "onSuccess": [
+          {
+            "type": "setFieldValue",
+            "field": "estimatedTax",
+            "value": "{{response.tax}}"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "first-name-focus-show-hint",
+    "description": "Show hint when first name field gets focus",
+    "trigger": {
+      "type": "onFocus",
+      "field": "firstName"
+    },
+    "actions": [
+      {
+        "type": "showMessage",
+        "level": "info",
+        "message": "Enter your first name as it appears in official documents"
+      }
+    ]
+  },
+  {
+    "id": "submit-wizard-create-employee",
+    "description": "Submit wizard and create employee",
+    "trigger": {
+      "type": "onSubmit"
+    },
+    "actions": [
+      {
+        "type": "methodCall",
+        "method": "EmployeeApi.createEmployee",
+        "args": {
+          "firstName": "{{form.firstName}}",
+          "lastName": "{{form.lastName}}",
+          "email": "{{form.email}}",
+          "phone": "{{form.phone}}",
+          "country": "{{form.country}}",
+          "state": "{{form.state}}",
+          "postalCode": "{{form.postalCode}}",
+          "department": "{{form.department}}",
+          "position": "{{form.position}}",
+          "salaryExpectation": "{{form.salaryExpectation}}",
+          "startDate": "{{form.startDate}}"
+        },
+        "onSuccess": [
+          {
+            "type": "showMessage",
+            "level": "success",
+            "message": "Employee onboarded successfully!"
+          },
+          {
+            "type": "navigateTo",
+            "url": "/employees"
+          }
+        ],
+        "onError": [
+          {
+            "type": "showMessage",
+            "level": "error",
+            "message": "Failed to onboard employee. Please try again."
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "submit-form-send-contact",
+    "description": "Submit contact form",
+    "trigger": {
+      "type": "onSubmit"
+    },
+    "actions": [
+      {
+        "type": "methodCall",
+        "method": "ContactApi.submitContact",
+        "args": {
+          "name": "{{form.name}}",
+          "email": "{{form.email}}",
+          "message": "{{form.message}}"
+        },
+        "onSuccess": [
+          {
+            "type": "showMessage",
+            "level": "success",
+            "message": "Thank you! Your message has been sent."
+          },
+          {
+            "type": "resetForm"
+          }
+        ],
+        "onError": [
+          {
+            "type": "showMessage",
+            "level": "error",
+            "message": "Failed to send message. Please try again."
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "submit-form-save-application",
+    "description": "Save application as draft",
+    "trigger": {
+      "type": "onSubmit"
+    },
+    "actions": [
+      {
+        "type": "methodCall",
+        "method": "ApplicationApi.saveDraft",
+        "args": {
+          "applicationData": "{{form}}"
+        },
+        "onSuccess": [
+          {
+            "type": "showMessage",
+            "level": "success",
+            "message": "Application saved as draft"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "navigate-success",
+    "description": "Navigate to success page",
+    "trigger": {
+      "type": "onSubmit"
+    },
+    "actions": [
+      {
+        "type": "navigateTo",
+        "url": "/success"
+      }
+    ]
+  },
+  {
+    "id": "reset-form-action",
+    "description": "Reset entire form",
+    "trigger": {
+      "type": "onSubmit"
+    },
+    "actions": [
+      {
+        "type": "resetForm"
+      }
+    ]
+  },
+  {
+    "id": "set-default-values-on-load",
+    "description": "Set default field values on page load",
+    "trigger": {
+      "type": "onPageLoad"
+    },
+    "actions": [
+      {
+        "type": "setFieldValue",
+        "field": "country",
+        "value": "de"
+      },
+      {
+        "type": "setFieldValue",
+        "field": "sms",
+        "value": true
+      }
+    ]
+  },
+  {
+    "id": "cascade-update-states-on-country-change",
+    "description": "Update states and cities when country changes",
+    "trigger": {
+      "type": "onChange",
+      "field": "country"
+    },
+    "actions": [
+      {
+        "type": "methodCall",
+        "method": "UiControllerService.getStates",
+        "args": {
+          "country": "{{form.country}}"
+        },
+        "onSuccess": [
+          {
+            "type": "updateFieldOptions",
+            "field": "state"
+          },
+          {
+            "type": "setFieldValue",
+            "field": "city",
+            "value": ""
+          }
+        ]
+      }
+    ]
+  }
+]
+

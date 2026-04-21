@@ -1,0 +1,189 @@
+[
+  {
+    "id": "simple-contact-form",
+    "title": "Contact Form",
+    "type": "form",
+    "fields": [
+      {
+        "key": "name",
+        "type": "text",
+        "label": "Full Name",
+        "required": true,
+        "validators": {
+          "minLength": 2,
+          "maxLength": 100
+        }
+      },
+      {
+        "key": "email",
+        "type": "text",
+        "label": "Email Address",
+        "required": true,
+        "validators": {
+          "pattern": "^[^\\s@]+@[^\\s@]+\\.[^\\s@]{2,}$"
+        }
+      },
+      {
+        "key": "message",
+        "type": "textarea",
+        "label": "Message",
+        "required": true,
+        "placeholder": "Enter your message here",
+        "validators": {
+          "minLength": 10,
+          "maxLength": 1000
+        }
+      }
+    ],
+    "rules": [],
+    "events": [
+      {
+        "id": "submit-contact-form",
+        "trigger": {
+          "type": "onSubmit"
+        },
+        "actions": [
+          {
+            "type": "methodCall",
+            "method": "ContactApi.submitContact",
+            "args": {
+              "name": "{{form.name}}",
+              "email": "{{form.email}}",
+              "message": "{{form.message}}"
+            },
+            "onSuccess": [
+              {
+                "type": "showMessage",
+                "level": "success",
+                "message": "Message sent successfully!"
+              }
+            ],
+            "onError": [
+              {
+                "type": "showMessage",
+                "level": "error",
+                "message": "Failed to send message"
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "buttons": {
+      "previous": false,
+      "next": false,
+      "save": true
+    }
+  },
+  {
+    "id": "login-form",
+    "title": "Login",
+    "type": "form",
+    "fields": [
+      {
+        "key": "username",
+        "type": "text",
+        "label": "Username",
+        "required": true,
+        "placeholder": "Enter your username"
+      },
+      {
+        "key": "password",
+        "type": "password",
+        "label": "Password",
+        "required": true,
+        "placeholder": "Enter your password"
+      },
+      {
+        "key": "rememberMe",
+        "type": "checkbox",
+        "label": "Remember me",
+        "required": false
+      }
+    ],
+    "rules": [],
+    "events": [
+      {
+        "id": "submit-login",
+        "trigger": {
+          "type": "onSubmit"
+        },
+        "actions": [
+          {
+            "type": "methodCall",
+            "method": "AuthApi.login",
+            "args": {
+              "username": "{{form.username}}",
+              "password": "{{form.password}}"
+            },
+            "onSuccess": [
+              {
+                "type": "navigateTo",
+                "url": "/dashboard"
+              }
+            ],
+            "onError": [
+              {
+                "type": "showMessage",
+                "level": "error",
+                "message": "Invalid username or password"
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "buttons": {
+      "previous": false,
+      "next": false,
+      "save": true
+    }
+  },
+  {
+    "id": "product-survey-form",
+    "title": "Product Survey",
+    "type": "form",
+    "fields": [
+      {
+        "key": "productName",
+        "type": "text",
+        "label": "Product Name",
+        "required": true
+      },
+      {
+        "key": "rating",
+        "type": "select",
+        "label": "Rating",
+        "required": true,
+        "options": [
+          { "value": "1", "label": "Poor" },
+          { "value": "2", "label": "Fair" },
+          { "value": "3", "label": "Good" },
+          { "value": "4", "label": "Very Good" },
+          { "value": "5", "label": "Excellent" }
+        ]
+      },
+      {
+        "key": "feedback",
+        "type": "textarea",
+        "label": "Feedback",
+        "required": false,
+        "placeholder": "Please share your feedback"
+      },
+      {
+        "key": "wouldRecommend",
+        "type": "checkbox",
+        "label": "Would you recommend this product?",
+        "required": false
+      }
+    ],
+    "rules": [],
+    "events": [],
+    "buttons": {
+      "previous": false,
+      "next": false,
+      "save": true
+    }
+  }
+]
+

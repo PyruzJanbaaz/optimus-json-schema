@@ -1,0 +1,218 @@
+[
+  {
+    "id": "employee-onboarding-wizard",
+    "title": "Employee Onboarding Wizard",
+    "type": "wizard",
+    "pages": [
+      {
+        "id": "personal-info-page",
+        "title": "Personal Information",
+        "schemaUrl": "schemas/pages/personal-info.schema.json",
+        "order": 1,
+        "buttons": {
+          "previous": false,
+          "next": true,
+          "save": false
+        }
+      },
+      {
+        "id": "location-info-page",
+        "title": "Location Information",
+        "schemaUrl": "schemas/pages/location-info.schema.json",
+        "order": 2,
+        "buttons": {
+          "previous": true,
+          "next": true,
+          "save": false
+        }
+      },
+      {
+        "id": "employment-info-page",
+        "title": "Employment Information",
+        "schemaUrl": "schemas/pages/employment-info.schema.json",
+        "order": 3,
+        "buttons": {
+          "previous": true,
+          "next": false,
+          "save": true
+        }
+      }
+    ],
+    "journeyId": "employee-onboarding"
+  },
+  {
+    "id": "loan-application-wizard",
+    "title": "Loan Application Wizard",
+    "type": "wizard",
+    "pages": [
+      {
+        "id": "applicant-info-page",
+        "title": "Applicant Information",
+        "schemaUrl": "schemas/pages/applicant-info.schema.json",
+        "order": 1,
+        "buttons": {
+          "previous": false,
+          "next": true,
+          "save": false
+        }
+      },
+      {
+        "id": "employment-details-page",
+        "title": "Employment Details",
+        "schemaUrl": "schemas/pages/employment-details.schema.json",
+        "order": 2,
+        "buttons": {
+          "previous": true,
+          "next": true,
+          "save": false
+        }
+      },
+      {
+        "id": "financial-info-page",
+        "title": "Financial Information",
+        "schemaUrl": "schemas/pages/financial-info.schema.json",
+        "order": 3,
+        "buttons": {
+          "previous": true,
+          "next": true,
+          "save": false
+        }
+      },
+      {
+        "id": "documents-page",
+        "title": "Supporting Documents",
+        "schemaUrl": "schemas/pages/documents.schema.json",
+        "order": 4,
+        "buttons": {
+          "previous": true,
+          "next": true,
+          "save": false
+        }
+      },
+      {
+        "id": "review-page",
+        "title": "Review & Confirm",
+        "schemaUrl": "schemas/pages/review.schema.json",
+        "order": 5,
+        "buttons": {
+          "previous": true,
+          "next": false,
+          "save": true
+        }
+      }
+    ],
+    "journeyId": "loan-application"
+  },
+  {
+    "id": "product-setup-wizard",
+    "title": "Product Setup Configuration Wizard",
+    "type": "wizard",
+    "pages": [
+      {
+        "id": "basic-settings-page",
+        "title": "Basic Settings",
+        "schemaUrl": "schemas/pages/basic-settings.schema.json",
+        "order": 1,
+        "buttons": {
+          "previous": false,
+          "next": true,
+          "save": false
+        }
+      },
+      {
+        "id": "integration-page",
+        "title": "Integration Configuration",
+        "schemaUrl": "schemas/pages/integration-config.schema.json",
+        "order": 2,
+        "buttons": {
+          "previous": true,
+          "next": true,
+          "save": false
+        }
+      },
+      {
+        "id": "notification-page",
+        "title": "Notification Settings",
+        "schemaUrl": "schemas/pages/notification-settings.schema.json",
+        "order": 3,
+        "buttons": {
+          "previous": true,
+          "next": false,
+          "save": true
+        }
+      }
+    ],
+    "journeyId": "product-setup"
+  },
+  {
+    "id": "user-registration-wizard",
+    "title": "User Registration Wizard",
+    "type": "wizard",
+    "pages": [
+      {
+        "id": "account-info-page",
+        "title": "Account Information",
+        "schemaUrl": "schemas/pages/account-info.schema.json",
+        "order": 1
+      },
+      {
+        "id": "profile-page",
+        "title": "Profile Details",
+        "schemaUrl": "schemas/pages/profile.schema.json",
+        "order": 2
+      },
+      {
+        "id": "preferences-page",
+        "title": "Preferences",
+        "schemaUrl": "schemas/pages/preferences.schema.json",
+        "order": 3
+      },
+      {
+        "id": "confirmation-page",
+        "title": "Confirmation",
+        "schemaUrl": "schemas/pages/confirmation.schema.json",
+        "order": 4
+      }
+    ],
+    "journeyId": "user-registration"
+  },
+  {
+    "id": "event-registration-wizard",
+    "title": "Event Registration Wizard",
+    "type": "wizard",
+    "pages": [
+      {
+        "id": "event-selection-page",
+        "title": "Select Event",
+        "schemaUrl": "schemas/pages/event-selection.schema.json",
+        "order": 1
+      },
+      {
+        "id": "attendee-info-page",
+        "title": "Attendee Information",
+        "schemaUrl": "schemas/pages/attendee-info.schema.json",
+        "order": 2
+      },
+      {
+        "id": "ticket-options-page",
+        "title": "Ticket Options",
+        "schemaUrl": "schemas/pages/ticket-options.schema.json",
+        "order": 3
+      },
+      {
+        "id": "payment-page",
+        "title": "Payment",
+        "schemaUrl": "schemas/pages/payment.schema.json",
+        "order": 4
+      },
+      {
+        "id": "review-page",
+        "title": "Review Registration",
+        "schemaUrl": "schemas/pages/review.schema.json",
+        "order": 5
+      }
+    ],
+    "journeyId": "event-registration"
+  }
+]
+

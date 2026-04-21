@@ -1,0 +1,405 @@
+[
+  {
+    "id": "personal-info",
+    "title": "Personal Information",
+    "type": "form",
+    "description": "Enter your personal details",
+    "fields": [
+      {
+        "key": "firstName",
+        "type": "text",
+        "label": "First Name",
+        "required": true,
+        "description": "Letters, spaces, hyphens and apostrophes only (2-50 characters)",
+        "validators": {
+          "minLength": 2,
+          "maxLength": 50,
+          "pattern": "^[a-zA-Z\\s'-]+$"
+        }
+      },
+      {
+        "key": "lastName",
+        "type": "text",
+        "label": "Last Name",
+        "required": true,
+        "description": "Letters, spaces, hyphens and apostrophes only (2-50 characters)",
+        "validators": {
+          "minLength": 2,
+          "maxLength": 50,
+          "pattern": "^[a-zA-Z\\s'-]+$"
+        }
+      },
+      {
+        "key": "email",
+        "type": "text",
+        "label": "Email",
+        "required": true,
+        "description": "Valid email format (e.g., user@example.com)",
+        "validators": {
+          "pattern": "^[^\\s@]+@[^\\s@]+\\.[^\\s@]{2,}$"
+        }
+      },
+      {
+        "key": "phone",
+        "type": "text",
+        "label": "Phone",
+        "required": true,
+        "placeholder": "+1 (555) 123-4567",
+        "description": "Valid phone number format",
+        "validators": {
+          "pattern": "^[+]?[0-9]{1,3}?[-.\\s]?[(]?[0-9]{3}[)][-.\\s]?[0-9]{3}[-.\\s]?[0-9]{4,6}$|^$"
+        }
+      },
+      {
+        "key": "sms",
+        "type": "checkbox",
+        "label": "Would you like to receive SMS notifications?",
+        "required": false
+      }
+    ],
+    "rules": [
+      {
+        "id": "require-phone-when-sms-checked",
+        "when": {
+          "field": "sms",
+          "operator": "equals",
+          "value": true
+        },
+        "then": [
+          {
+            "type": "show",
+            "field": "phone"
+          },
+          {
+            "type": "setRequired",
+            "field": "phone"
+          }
+        ]
+      }
+    ],
+    "events": [],
+    "buttons": {
+      "previous": false,
+      "next": true,
+      "save": false
+    }
+  },
+  {
+    "id": "location-info",
+    "title": "Location Information",
+    "type": "form",
+    "description": "Select your location details",
+    "fields": [
+      {
+        "key": "country",
+        "type": "select",
+        "label": "Country",
+        "required": true,
+        "description": "Select a country from the list",
+        "options": [
+          { "value": "", "label": "-- Please Select --" }
+        ]
+      },
+      {
+        "key": "state",
+        "type": "select",
+        "label": "State/Region",
+        "required": true,
+        "description": "Select a state or region for the selected country",
+        "options": [
+          { "value": "", "label": "-- Please Select --" }
+        ]
+      },
+      {
+        "key": "postalCode",
+        "type": "text",
+        "label": "Postal Code",
+        "required": false,
+        "placeholder": "e.g., 12345",
+        "description": "German postal code: 5 digits (e.g., 12345)",
+        "validators": {
+          "pattern": "^[0-9]{5}$|^$"
+        }
+      }
+    ],
+    "rules": [
+      {
+        "id": "show-postal-when-germany-selected",
+        "when": {
+          "field": "country",
+          "operator": "equals",
+          "value": "de"
+        },
+        "then": [
+          {
+            "type": "show",
+            "field": "postalCode"
+          },
+          {
+            "type": "setRequired",
+            "field": "postalCode"
+          }
+        ]
+      },
+      {
+        "id": "hide-postal-when-not-germany",
+        "when": {
+          "field": "country",
+          "operator": "notEquals",
+          "value": "de"
+        },
+        "then": [
+          {
+            "type": "hide",
+            "field": "postalCode"
+          },
+          {
+            "type": "setOptional",
+            "field": "postalCode"
+          }
+        ]
+      }
+    ],
+    "events": [
+      {
+        "id": "page-load-load-countries",
+        "trigger": {
+          "type": "onPageLoad"
+        },
+        "actions": [
+          {
+            "type": "methodCall",
+            "method": "UiControllerService.getCountries",
+            "args": {},
+            "onSuccess": [
+              {
+                "type": "updateFieldOptions",
+                "field": "country"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "country-change-load-states",
+        "trigger": {
+          "type": "onChange",
+          "field": "country"
+        },
+        "actions": [
+          {
+            "type": "methodCall",
+            "method": "UiControllerService.getState",
+            "args": {
+              "country": "{{form.country}}"
+            },
+            "onSuccess": [
+              {
+                "type": "updateFieldOptions",
+                "field": "state"
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "buttons": {
+      "previous": true,
+      "next": true,
+      "save": false
+    }
+  },
+  {
+    "id": "employment-info",
+    "title": "Employment Information",
+    "type": "form",
+    "description": "Enter your employment details",
+    "fields": [
+      {
+        "key": "department",
+        "type": "select",
+        "label": "Department",
+        "required": true,
+        "options": [
+          { "value": "", "label": "-- Please Select --" },
+          { "value": "EG", "label": "Engineering" },
+          { "value": "SL", "label": "Sales" },
+          { "value": "MR", "label": "Marketing" },
+          { "value": "HR", "label": "Human Resources" }
+        ]
+      },
+      {
+        "key": "position",
+        "type": "select",
+        "label": "Position",
+        "required": true,
+        "description": "Select a position for the chosen department",
+        "options": [
+          { "value": "", "label": "-- Please Select --" }
+        ]
+      },
+      {
+        "key": "salaryExpectation",
+        "type": "number",
+        "label": "Salary Expectation (Optional)",
+        "required": false,
+        "description": "Must be between 20,000 and 180,000",
+        "validators": {
+          "min": 20000,
+          "max": 180000
+        }
+      },
+      {
+        "key": "startDate",
+        "type": "text",
+        "label": "Start Date",
+        "required": true,
+        "placeholder": "YYYY-MM-DD",
+        "description": "Date format: YYYY-MM-DD (e.g., 2026-02-24)",
+        "validators": {
+          "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+        }
+      }
+    ],
+    "rules": [
+      {
+        "id": "show-salary-if-engineering",
+        "when": {
+          "field": "department",
+          "operator": "equals",
+          "value": "EG"
+        },
+        "then": [
+          {
+            "type": "show",
+            "field": "salaryExpectation"
+          }
+        ]
+      }
+    ],
+    "events": [
+      {
+        "id": "department-change-load-positions",
+        "trigger": {
+          "type": "onChange",
+          "field": "department"
+        },
+        "actions": [
+          {
+            "type": "methodCall",
+            "method": "UiControllerService.getPositions",
+            "args": {
+              "department": "{{form.department}}"
+            },
+            "onSuccess": [
+              {
+                "type": "updateFieldOptions",
+                "field": "position"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "submit-wizard",
+        "trigger": {
+          "type": "onSubmit"
+        },
+        "actions": [
+          {
+            "type": "methodCall",
+            "method": "EmployeeApi.createEmployee",
+            "args": {
+              "firstName": "{{form.firstName}}",
+              "lastName": "{{form.lastName}}",
+              "email": "{{form.email}}",
+              "phone": "{{form.phone}}",
+              "country": "{{form.country}}",
+              "state": "{{form.state}}",
+              "postalCode": "{{form.postalCode}}",
+              "department": "{{form.department}}",
+              "position": "{{form.position}}",
+              "salaryExpectation": "{{form.salaryExpectation}}",
+              "startDate": "{{form.startDate}}"
+            },
+            "onSuccess": [
+              {
+                "type": "showMessage",
+                "level": "success",
+                "message": "Employee onboarded successfully!"
+              }
+            ],
+            "onError": [
+              {
+                "type": "showMessage",
+                "level": "error",
+                "message": "Failed to onboard employee."
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "buttons": {
+      "previous": true,
+      "next": false,
+      "save": true
+    }
+  },
+  {
+    "id": "contact-form-page",
+    "title": "Contact Information",
+    "type": "form",
+    "description": "Please enter your contact information",
+    "fields": [
+      {
+        "key": "name",
+        "type": "text",
+        "label": "Full Name",
+        "required": true,
+        "validators": {
+          "minLength": 2,
+          "maxLength": 100
+        }
+      },
+      {
+        "key": "email",
+        "type": "text",
+        "label": "Email Address",
+        "required": true,
+        "validators": {
+          "pattern": "^[^\\s@]+@[^\\s@]+\\.[^\\s@]{2,}$"
+        }
+      },
+      {
+        "key": "subject",
+        "type": "text",
+        "label": "Subject",
+        "required": true,
+        "validators": {
+          "minLength": 5,
+          "maxLength": 100
+        }
+      },
+      {
+        "key": "message",
+        "type": "textarea",
+        "label": "Message",
+        "required": true,
+        "placeholder": "Enter your message here",
+        "validators": {
+          "minLength": 10,
+          "maxLength": 1000
+        }
+      }
+    ],
+    "rules": [],
+    "events": [],
+    "buttons": {
+      "previous": false,
+      "next": false,
+      "save": true
+    }
+  }
+]
+

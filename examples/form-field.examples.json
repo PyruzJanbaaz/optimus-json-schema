@@ -1,0 +1,172 @@
+[
+  {
+    "key": "firstName",
+    "type": "text",
+    "label": "First Name",
+    "required": true,
+    "description": "Letters, spaces, hyphens and apostrophes only (2-50 characters)",
+    "validators": {
+      "minLength": 2,
+      "maxLength": 50,
+      "pattern": "^[a-zA-Z\\s'-]+$"
+    }
+  },
+  {
+    "key": "lastName",
+    "type": "text",
+    "label": "Last Name",
+    "required": true,
+    "description": "Letters, spaces, hyphens and apostrophes only (2-50 characters)",
+    "validators": {
+      "minLength": 2,
+      "maxLength": 50,
+      "pattern": "^[a-zA-Z\\s'-]+$"
+    }
+  },
+  {
+    "key": "email",
+    "type": "text",
+    "label": "Email Address",
+    "required": true,
+    "placeholder": "user@example.com",
+    "description": "Valid email format",
+    "validators": {
+      "pattern": "^[^\\s@]+@[^\\s@]+\\.[^\\s@]{2,}$"
+    }
+  },
+  {
+    "key": "phone",
+    "type": "text",
+    "label": "Phone Number",
+    "required": true,
+    "placeholder": "+1 (555) 123-4567",
+    "description": "Valid phone number format",
+    "validators": {
+      "pattern": "^[+]?[0-9]{1,3}?[-.\\s]?[(]?[0-9]{3}[)][-.\\s]?[0-9]{3}[-.\\s]?[0-9]{4,6}$|^$"
+    }
+  },
+  {
+    "key": "password",
+    "type": "password",
+    "label": "Password",
+    "required": true,
+    "placeholder": "Enter a strong password",
+    "description": "Minimum 8 characters, at least one uppercase, one number",
+    "validators": {
+      "minLength": 8,
+      "maxLength": 100,
+      "pattern": "^(?=.*[A-Z])(?=.*[0-9]).{8,}$"
+    }
+  },
+  {
+    "key": "age",
+    "type": "number",
+    "label": "Age",
+    "required": false,
+    "placeholder": "Enter your age",
+    "description": "Must be between 18 and 80",
+    "validators": {
+      "min": 18,
+      "max": 80
+    }
+  },
+  {
+    "key": "salaryExpectation",
+    "type": "number",
+    "label": "Salary Expectation",
+    "required": false,
+    "placeholder": "50000",
+    "description": "Must be between 20,000 and 180,000",
+    "validators": {
+      "min": 20000,
+      "max": 180000
+    }
+  },
+  {
+    "key": "department",
+    "type": "select",
+    "label": "Department",
+    "required": true,
+    "description": "Select a department",
+    "options": [
+      { "value": "", "label": "-- Please Select --" },
+      { "value": "EG", "label": "Engineering" },
+      { "value": "SL", "label": "Sales" },
+      { "value": "MR", "label": "Marketing" },
+      { "value": "HR", "label": "Human Resources" }
+    ]
+  },
+  {
+    "key": "country",
+    "type": "select",
+    "label": "Country",
+    "required": true,
+    "description": "Select your country",
+    "options": [
+      { "value": "", "label": "-- Please Select --" },
+      { "value": "de", "label": "Germany" },
+      { "value": "fr", "label": "France" },
+      { "value": "us", "label": "United States" },
+      { "value": "gb", "label": "United Kingdom" }
+    ]
+  },
+  {
+    "key": "multiSelect",
+    "type": "select",
+    "label": "Skills",
+    "required": false,
+    "description": "Select one or more skills",
+    "options": [
+      { "value": "java", "label": "Java" },
+      { "value": "python", "label": "Python" },
+      { "value": "javascript", "label": "JavaScript" },
+      { "value": "react", "label": "React" },
+      { "value": "angular", "label": "Angular" }
+    ]
+  },
+  {
+    "key": "sms",
+    "type": "checkbox",
+    "label": "Would you like to receive SMS notifications?",
+    "required": false,
+    "value": false
+  },
+  {
+    "key": "emailNotifications",
+    "type": "checkbox",
+    "label": "Enable email notifications",
+    "required": false,
+    "value": true
+  },
+  {
+    "key": "terms",
+    "type": "checkbox",
+    "label": "I agree to the terms and conditions",
+    "required": true,
+    "value": false
+  },
+  {
+    "key": "message",
+    "type": "textarea",
+    "label": "Comments",
+    "required": false,
+    "placeholder": "Enter your comments here",
+    "description": "Maximum 500 characters",
+    "validators": {
+      "maxLength": 500
+    }
+  },
+  {
+    "key": "feedback",
+    "type": "textarea",
+    "label": "Feedback",
+    "required": true,
+    "placeholder": "Please provide detailed feedback",
+    "description": "Minimum 10 characters",
+    "validators": {
+      "minLength": 10,
+      "maxLength": 1000
+    }
+  }
+]
+
