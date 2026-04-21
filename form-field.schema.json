@@ -1,0 +1,148 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "id": "form-field",
+  "title": "Form Field Schema",
+  "description": "Schema representing the structure of a form field definition",
+  "type": "object",
+  "properties": {
+    "key": {
+      "id": "key",
+      "type": "string",
+      "title": "Field Key",
+      "description": "Unique identifier for the field (camelCase, no spaces). Used to reference field values in forms",
+      "pattern": "^[a-zA-Z][a-zA-Z0-9]*$",
+      "minLength": 1,
+      "maxLength": 50,
+      "keywords": ["key", "identifier", "field name", "property", "attribute"]
+    },
+    "type": {
+      "id": "type",
+      "type": "string",
+      "title": "Field Type",
+      "description": "Type of input control for this field",
+      "enum": ["text", "number", "password", "select", "checkbox", "textarea"],
+      "keywords": ["type", "input type", "field type", "control type"]
+    },
+    "label": {
+      "id": "label",
+      "type": "string",
+      "title": "Field Label",
+      "description": "Display label shown to the user for this field",
+      "minLength": 1,
+      "maxLength": 100,
+      "keywords": ["label", "title", "display name", "caption"]
+    },
+    "required": {
+      "id": "required",
+      "type": "boolean",
+      "title": "Required Flag",
+      "description": "Whether this field is mandatory for form submission",
+      "default": false,
+      "keywords": ["required", "mandatory", "validation", "constraint"]
+    },
+    "disabled": {
+      "id": "disabled",
+      "type": "boolean",
+      "title": "Disabled Flag",
+      "description": "Whether this field is disabled and cannot be edited",
+      "default": false,
+      "keywords": ["disabled", "enabled", "editable", "state"]
+    },
+    "placeholder": {
+      "id": "placeholder",
+      "type": "string",
+      "title": "Placeholder Text",
+      "description": "Placeholder text shown in empty field (text, number, password, textarea types)",
+      "keywords": ["placeholder", "hint", "example", "sample"]
+    },
+    "description": {
+      "id": "description",
+      "type": "string",
+      "title": "Field Description",
+      "description": "Helper text providing additional information about the field",
+      "keywords": ["description", "help text", "helper", "info"]
+    },
+    "value": {
+      "id": "value",
+      "title": "Field Value",
+      "description": "Default value for the field",
+      "oneOf": [
+        { "type": "string" },
+        { "type": "number" },
+        { "type": "boolean" },
+        { "type": "array", "items": { "oneOf": [{"type": "string"}, {"type": "number"}] } }
+      ],
+      "keywords": ["value", "default", "initial value"]
+    },
+    "validators": {
+      "id": "validators",
+      "type": "object",
+      "title": "Field Validators",
+      "description": "Validation rules applied to this field",
+      "properties": {
+        "minLength": {
+          "type": "integer",
+          "title": "Minimum Length",
+          "description": "Minimum character length for text fields",
+          "minimum": 0
+        },
+        "maxLength": {
+          "type": "integer",
+          "title": "Maximum Length",
+          "description": "Maximum character length for text fields",
+          "minimum": 1
+        },
+        "min": {
+          "type": "number",
+          "title": "Minimum Value",
+          "description": "Minimum numeric value for number fields"
+        },
+        "max": {
+          "type": "number",
+          "title": "Maximum Value",
+          "description": "Maximum numeric value for number fields"
+        },
+        "pattern": {
+          "type": "string",
+          "title": "Regex Pattern",
+          "description": "Regular expression pattern for string validation (e.g., email, phone)"
+        }
+      },
+      "additionalProperties": false
+    },
+    "options": {
+      "id": "options",
+      "type": "array",
+      "title": "Select Options",
+      "description": "Available options for select and checkbox fields",
+      "items": {
+        "type": "object",
+        "properties": {
+          "value": {
+            "id": "value",
+            "title": "Option Value",
+            "description": "Value to be stored when option is selected",
+            "oneOf": [
+              { "type": "string" },
+              { "type": "number" }
+            ],
+            "keywords": ["value", "option value", "selected value"]
+          },
+          "label": {
+            "id": "label",
+            "type": "string",
+            "title": "Option Label",
+            "description": "Display text for the option",
+            "keywords": ["label", "text", "display text", "option label"]
+          }
+        },
+        "required": ["value", "label"],
+        "additionalProperties": false
+      },
+      "keywords": ["options", "choices", "values", "select options"]
+    }
+  },
+  "required": ["key", "type", "label"],
+  "additionalProperties": false
+}
+

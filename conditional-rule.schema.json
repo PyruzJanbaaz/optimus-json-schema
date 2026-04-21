@@ -1,0 +1,113 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "id": "conditional-rule",
+  "title": "Conditional Rule Schema",
+  "description": "Schema representing conditional rules for form field visibility, requirements, and state changes",
+  "type": "object",
+  "properties": {
+    "id": {
+      "id": "id",
+      "type": "string",
+      "title": "Rule ID",
+      "description": "Unique identifier for the conditional rule (kebab-case recommended)",
+      "pattern": "^[a-z0-9-]+$",
+      "minLength": 1,
+      "maxLength": 100,
+      "keywords": ["id", "identifier", "name", "rule name"]
+    },
+    "when": {
+      "id": "when",
+      "type": "object",
+      "title": "Condition",
+      "description": "Condition that triggers this rule",
+      "properties": {
+        "field": {
+          "type": "string",
+          "title": "Field Name",
+          "description": "Field key to evaluate the condition on"
+        },
+        "operator": {
+          "type": "string",
+          "title": "Comparison Operator",
+          "description": "Operator used to compare field value",
+          "enum": [
+            "equals",
+            "notEquals",
+            "greaterThan",
+            "lessThan",
+            "greaterThanOrEqual",
+            "lessThanOrEqual",
+            "in",
+            "contains",
+            "notContains",
+            "startsWith",
+            "endsWith",
+            "isEmpty",
+            "isNotEmpty",
+            "isTrue",
+            "isFalse"
+          ],
+          "keywords": ["operator", "comparison", "condition operator"]
+        },
+        "value": {
+          "title": "Condition Value",
+          "description": "Value to compare against. Not needed for isEmpty, isNotEmpty, isTrue, isFalse operators",
+          "oneOf": [
+            { "type": "string" },
+            { "type": "number" },
+            { "type": "boolean" },
+            { "type": "array" }
+          ]
+        }
+      },
+      "required": ["field", "operator"],
+      "additionalProperties": false
+    },
+    "then": {
+      "id": "then",
+      "type": "array",
+      "title": "Actions",
+      "description": "Actions to execute when condition is true",
+      "items": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "title": "Action Type",
+            "description": "Type of action to perform on the field",
+            "enum": [
+              "show",
+              "hide",
+              "disable",
+              "enable",
+              "setRequired",
+              "setOptional",
+              "setValue",
+              "updateOptions"
+            ],
+            "keywords": ["type", "action type", "operation"]
+          },
+          "field": {
+            "type": "string",
+            "title": "Target Field",
+            "description": "Field key to apply the action on"
+          },
+          "value": {
+            "title": "Action Value",
+            "description": "Value to set (used with setValue action)",
+            "oneOf": [
+              { "type": "string" },
+              { "type": "number" },
+              { "type": "boolean" }
+            ]
+          }
+        },
+        "required": ["type", "field"],
+        "additionalProperties": false
+      },
+      "minItems": 1
+    }
+  },
+  "required": ["id", "when", "then"],
+  "additionalProperties": false
+}

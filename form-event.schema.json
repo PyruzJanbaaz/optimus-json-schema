@@ -1,0 +1,187 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "id": "form-event",
+  "title": "Form Event Schema",
+  "description": "Schema representing form/field events and their triggered actions",
+  "type": "object",
+  "properties": {
+    "id": {
+      "id": "id",
+      "type": "string",
+      "title": "Event ID",
+      "description": "Unique identifier for the event (kebab-case recommended)",
+      "pattern": "^[a-z0-9-]+$",
+      "minLength": 1,
+      "maxLength": 100,
+      "keywords": ["id", "identifier", "event name"]
+    },
+    "trigger": {
+      "id": "trigger",
+      "type": "object",
+      "title": "Event Trigger",
+      "description": "Trigger that fires this event",
+      "properties": {
+        "type": {
+          "id": "type",
+          "type": "string",
+          "title": "Trigger Type",
+          "description": "Type of event that triggers the actions. onSubmit fires when form is submitted, onBlur when field loses focus, onChange when field value changes, onFocus when field gains focus, onPageLoad when page loads",
+          "enum": [
+            "onSubmit",
+            "onBlur",
+            "onChange",
+            "onFocus",
+            "onPageLoad"
+          ],
+          "keywords": ["type", "trigger type", "event type", "event"]
+        },
+        "field": {
+          "id": "field",
+          "type": "string",
+          "title": "Field Name",
+          "description": "Field key that triggers the event (required for field-level triggers like onBlur, onChange, onFocus; not used for onSubmit and onPageLoad)",
+          "keywords": ["field", "field key", "target field"]
+        }
+      },
+      "required": ["type"],
+      "additionalProperties": false
+    },
+    "actions": {
+      "id": "actions",
+      "type": "array",
+      "title": "Event Actions",
+      "description": "Actions to execute when event is triggered",
+      "items": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "id": "type",
+            "type": "string",
+            "title": "Action Type",
+            "description": "Type of action to execute. methodCall calls a backend method, showMessage displays a message to user, navigateTo navigates to a URL, resetForm clears all form values, setFieldValue sets a field's value, updateFieldOptions updates dropdown/checkbox options",
+            "enum": [
+              "methodCall",
+              "showMessage",
+              "navigateTo",
+              "resetForm",
+              "setFieldValue",
+              "updateFieldOptions"
+            ],
+            "keywords": ["type", "action type", "operation"]
+          },
+          "method": {
+            "id": "method",
+            "type": "string",
+            "title": "Method Name",
+            "description": "Full method path to call (e.g., 'UiControllerService.getCountries', 'EmployeeApi.createEmployee'). Used with methodCall action",
+            "keywords": ["method", "service method", "api method", "function"]
+          },
+          "args": {
+            "id": "args",
+            "type": "object",
+            "title": "Method Arguments",
+            "description": "Arguments to pass to the method. Supports template expressions like {{form.fieldName}} to reference form field values",
+            "keywords": ["args", "arguments", "parameters", "input"]
+          },
+          "onSuccess": {
+            "id": "onSuccess",
+            "type": "array",
+            "title": "Success Actions",
+            "description": "Array of actions to execute if the method call succeeds",
+            "items": {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "id": "type",
+                  "type": "string",
+                  "enum": [
+                    "methodCall",
+                    "showMessage",
+                    "navigateTo",
+                    "resetForm",
+                    "setFieldValue",
+                    "updateFieldOptions"
+                  ],
+                  "keywords": ["type", "action type"]
+                }
+              },
+              "required": ["type"]
+            },
+            "keywords": ["onSuccess", "success", "callback"]
+          },
+          "onError": {
+            "id": "onError",
+            "type": "array",
+            "title": "Error Actions",
+            "description": "Array of actions to execute if the method call fails",
+            "items": {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "id": "type",
+                  "type": "string",
+                  "enum": [
+                    "methodCall",
+                    "showMessage",
+                    "navigateTo",
+                    "resetForm",
+                    "setFieldValue",
+                    "updateFieldOptions"
+                  ],
+                  "keywords": ["type", "action type"]
+                }
+              },
+              "required": ["type"]
+            },
+            "keywords": ["onError", "error", "error handler", "callback"]
+          },
+          "level": {
+            "id": "level",
+            "type": "string",
+            "title": "Message Level",
+            "description": "Severity level for showMessage action. success for positive actions, error for failures, warning for cautions, info for informational messages",
+            "enum": ["success", "error", "warning", "info"],
+            "keywords": ["level", "severity", "message type", "type"]
+          },
+          "message": {
+            "id": "message",
+            "type": "string",
+            "title": "Message Text",
+            "description": "Message text to display to the user (for showMessage action)",
+            "keywords": ["message", "text", "notification"]
+          },
+          "url": {
+            "id": "url",
+            "type": "string",
+            "title": "Navigation URL",
+            "description": "URL or route path to navigate to (for navigateTo action). Can be relative or absolute",
+            "keywords": ["url", "route", "path", "destination"]
+          },
+          "field": {
+            "id": "field",
+            "type": "string",
+            "title": "Target Field",
+            "description": "Field key (for setFieldValue or updateFieldOptions actions)",
+            "keywords": ["field", "field key", "target"]
+          },
+          "value": {
+            "id": "value",
+            "title": "Field Value",
+            "description": "Value to set for the target field (for setFieldValue action)",
+            "oneOf": [
+              { "type": "string" },
+              { "type": "number" },
+              { "type": "boolean" }
+            ],
+            "keywords": ["value", "data", "content"]
+          }
+        },
+        "required": ["type"],
+        "additionalProperties": false
+      },
+      "minItems": 1
+    }
+  },
+  "required": ["id", "trigger", "actions"],
+  "additionalProperties": false
+}

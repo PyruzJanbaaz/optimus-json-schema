@@ -1,0 +1,287 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "id": "form-schema",
+  "title": "Form Schema",
+  "description": "Schema representing a complete form definition with fields, rules, events, and navigation buttons",
+  "type": "object",
+  "properties": {
+    "id": {
+      "id": "id",
+      "type": "string",
+      "title": "Form ID",
+      "description": "Unique identifier for the form (kebab-case recommended)",
+      "pattern": "^[a-z0-9-]+$",
+      "minLength": 1,
+      "maxLength": 100,
+      "keywords": ["id", "identifier", "form name"]
+    },
+    "title": {
+      "id": "title",
+      "type": "string",
+      "title": "Form Title",
+      "description": "Display title for the form",
+      "minLength": 1,
+      "maxLength": 100,
+      "keywords": ["title", "name", "heading", "form title"]
+    },
+    "type": {
+      "id": "type",
+      "type": "string",
+      "title": "Schema Type",
+      "description": "Type of schema - 'form' for a single page form, 'wizard' for multi-page form",
+      "enum": ["form", "wizard"],
+      "default": "form",
+      "keywords": ["type", "schema type"]
+    },
+    "fields": {
+      "id": "fields",
+      "type": "array",
+      "title": "Form Fields",
+      "description": "Array of form field definitions (used when type is 'form'). See form-field.schema.json for detailed field structure",
+      "items": {
+        "type": "object",
+        "properties": {
+          "key": {
+            "id": "key",
+            "type": "string",
+            "title": "Field Key",
+            "description": "Unique identifier for the field (camelCase, no spaces)",
+            "pattern": "^[a-zA-Z][a-zA-Z0-9]*$",
+            "keywords": ["key", "identifier", "field name", "property"]
+          },
+          "type": {
+            "id": "type",
+            "type": "string",
+            "title": "Field Type",
+            "description": "Type of input control for this field",
+            "enum": ["text", "number", "password", "select", "checkbox", "textarea"],
+            "keywords": ["type", "input type", "field type"]
+          },
+          "label": {
+            "id": "label",
+            "type": "string",
+            "title": "Field Label",
+            "description": "Display label shown to the user",
+            "keywords": ["label", "title", "display name"]
+          },
+          "required": {
+            "id": "required",
+            "type": "boolean",
+            "title": "Required Flag",
+            "description": "Whether this field is mandatory",
+            "keywords": ["required", "mandatory", "validation"]
+          },
+          "disabled": {
+            "id": "disabled",
+            "type": "boolean",
+            "title": "Disabled Flag",
+            "description": "Whether this field is disabled",
+            "keywords": ["disabled", "enabled", "editable"]
+          },
+          "placeholder": {
+            "id": "placeholder",
+            "type": "string",
+            "title": "Placeholder Text",
+            "description": "Placeholder text shown in empty field",
+            "keywords": ["placeholder", "hint", "example"]
+          },
+          "description": {
+            "id": "description",
+            "type": "string",
+            "title": "Field Description",
+            "description": "Helper text providing additional information",
+            "keywords": ["description", "help text", "helper"]
+          },
+          "value": {
+            "id": "value",
+            "title": "Field Value",
+            "description": "Default value for the field",
+            "keywords": ["value", "default", "initial value"]
+          },
+          "validators": {
+            "id": "validators",
+            "type": "object",
+            "title": "Field Validators",
+            "description": "Validation rules applied to this field. See form-field.schema.json for detailed validator properties"
+          },
+          "options": {
+            "id": "options",
+            "type": "array",
+            "title": "Select Options",
+            "description": "Available options for select and checkbox fields",
+            "keywords": ["options", "choices", "values"]
+          }
+        },
+        "required": ["key", "type", "label"]
+      }
+    },
+    "pages": {
+      "id": "pages",
+      "type": "array",
+      "title": "Wizard Pages",
+      "description": "Array of page definitions (used when type is 'wizard'). See form-page.schema.json for detailed page structure",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "id": "id",
+            "type": "string",
+            "title": "Page ID",
+            "description": "Unique identifier for the page",
+            "pattern": "^[a-z0-9-]+$",
+            "keywords": ["id", "identifier", "page name"]
+          },
+          "title": {
+            "id": "title",
+            "type": "string",
+            "title": "Page Title",
+            "description": "Display title for the page",
+            "keywords": ["title", "name", "heading"]
+          },
+          "type": {
+            "id": "type",
+            "type": "string",
+            "title": "Page Type",
+            "description": "Type identifier for the page (typically 'form')",
+            "enum": ["form"],
+            "keywords": ["type", "page type"]
+          },
+          "description": {
+            "id": "description",
+            "type": "string",
+            "title": "Page Description",
+            "description": "Optional description or instruction text for the page",
+            "keywords": ["description", "instruction", "help text"]
+          },
+          "fields": {
+            "id": "fields",
+            "type": "array",
+            "title": "Form Fields",
+            "description": "Array of form field definitions for this page. See form-field.schema.json for detailed field structure",
+            "keywords": ["fields", "form fields", "inputs"]
+          },
+          "rules": {
+            "id": "rules",
+            "type": "array",
+            "title": "Conditional Rules",
+            "description": "Conditional rules for this page. See conditional-rule.schema.json for structure",
+            "keywords": ["rules", "conditions", "conditionals"]
+          },
+          "events": {
+            "id": "events",
+            "type": "array",
+            "title": "Page Events",
+            "description": "Events for this page. See form-event.schema.json for structure",
+            "keywords": ["events", "triggers", "actions"]
+          },
+          "buttons": {
+            "id": "buttons",
+            "type": "object",
+            "title": "Page Buttons",
+            "description": "Button configuration for this page",
+            "keywords": ["buttons", "navigation", "actions"]
+          }
+        },
+        "required": ["id", "title", "fields"]
+      }
+    },
+    "rules": {
+      "id": "rules",
+      "type": "array",
+      "title": "Conditional Rules",
+      "description": "Global conditional rules for field visibility, requirements, and state management. See conditional-rule.schema.json for detailed structure",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "id": "id",
+            "type": "string",
+            "title": "Rule ID",
+            "description": "Unique identifier for the conditional rule",
+            "keywords": ["id", "identifier", "rule name"]
+          },
+          "when": {
+            "id": "when",
+            "type": "object",
+            "title": "Condition",
+            "description": "Condition that triggers this rule (see conditional-rule.schema.json)"
+          },
+          "then": {
+            "id": "then",
+            "type": "array",
+            "title": "Actions",
+            "description": "Actions to execute when condition is true (see conditional-rule.schema.json)"
+          }
+        },
+        "required": ["id", "when", "then"]
+      }
+    },
+    "events": {
+      "id": "events",
+      "type": "array",
+      "title": "Form Events",
+      "description": "Events triggered by user actions and their corresponding actions. See form-event.schema.json for detailed structure",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "id": "id",
+            "type": "string",
+            "title": "Event ID",
+            "description": "Unique identifier for the event",
+            "keywords": ["id", "identifier", "event name"]
+          },
+          "trigger": {
+            "id": "trigger",
+            "type": "object",
+            "title": "Event Trigger",
+            "description": "Configuration for when this event is triggered (see form-event.schema.json)"
+          },
+          "actions": {
+            "id": "actions",
+            "type": "array",
+            "title": "Event Actions",
+            "description": "Actions to execute when event is triggered (see form-event.schema.json)"
+          }
+        },
+        "required": ["id", "trigger", "actions"]
+      }
+    },
+    "buttons": {
+      "id": "buttons",
+      "type": "object",
+      "title": "Form Navigation Buttons",
+      "description": "Configuration for navigation buttons",
+      "properties": {
+        "previous": {
+          "id": "previous",
+          "type": "boolean",
+          "title": "Show Previous Button",
+          "description": "Whether to show the 'Previous' button",
+          "default": false,
+          "keywords": ["previous", "back", "navigation", "button"]
+        },
+        "next": {
+          "id": "next",
+          "type": "boolean",
+          "title": "Show Next Button",
+          "description": "Whether to show the 'Next' button",
+          "default": false,
+          "keywords": ["next", "forward", "navigation", "button"]
+        },
+        "save": {
+          "id": "save",
+          "type": "boolean",
+          "title": "Show Save Button",
+          "description": "Whether to show the 'Save/Submit' button",
+          "default": true,
+          "keywords": ["save", "submit", "action", "button"]
+        }
+      },
+      "additionalProperties": false,
+      "keywords": ["buttons", "navigation", "actions"]
+    }
+  },
+  "required": ["id", "title", "type"],
+  "additionalProperties": false
+}

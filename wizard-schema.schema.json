@@ -1,0 +1,134 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "id": "wizard-schema",
+  "title": "Wizard Schema",
+  "description": "Schema representing a complete multi-page wizard definition with pages and navigation",
+  "type": "object",
+  "properties": {
+    "id": {
+      "id": "id",
+      "type": "string",
+      "title": "Wizard ID",
+      "description": "Unique identifier for the wizard (kebab-case recommended)",
+      "pattern": "^[a-z0-9-]+$",
+      "minLength": 1,
+      "maxLength": 100,
+      "keywords": ["id", "identifier", "wizard name"]
+    },
+    "title": {
+      "id": "title",
+      "type": "string",
+      "title": "Wizard Title",
+      "description": "Display title for the wizard",
+      "minLength": 1,
+      "maxLength": 100,
+      "keywords": ["title", "name", "heading", "wizard title"]
+    },
+    "type": {
+      "id": "type",
+      "type": "string",
+      "title": "Schema Type",
+      "description": "Type of schema - must be 'wizard' for multi-page wizards",
+      "enum": ["wizard"],
+      "keywords": ["type", "schema type"]
+    },
+    "pages": {
+      "id": "pages",
+      "type": "array",
+      "title": "Wizard Pages",
+      "description": "Array of page configurations for the wizard. Pages are ordered by the 'order' property. See wizard-schema.schema.json for page structure details",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "id": "id",
+            "type": "string",
+            "title": "Page ID",
+            "description": "Unique identifier for the page (kebab-case recommended)",
+            "pattern": "^[a-z0-9-]+$",
+            "keywords": ["id", "identifier", "page name"]
+          },
+          "title": {
+            "id": "title",
+            "type": "string",
+            "title": "Page Title",
+            "description": "Display title for the page",
+            "minLength": 1,
+            "maxLength": 100,
+            "keywords": ["title", "name", "heading", "page title"]
+          },
+          "schemaUrl": {
+            "id": "schemaUrl",
+            "type": "string",
+            "title": "Schema URL",
+            "description": "Path to the form schema file for this page (e.g., 'schemas/pages/personal-info.schema.json')",
+            "pattern": "^[a-zA-Z0-9\\./\\-_]+\\.schema\\.json$",
+            "keywords": ["url", "path", "schema path", "file"]
+          },
+          "schemaId": {
+            "id": "schemaId",
+            "type": "string",
+            "title": "Schema ID",
+            "description": "Alternative: reference schema by ID instead of URL",
+            "keywords": ["schemaId", "schema reference", "id reference"]
+          },
+          "order": {
+            "id": "order",
+            "type": "integer",
+            "title": "Page Order",
+            "description": "Order of this page in the wizard (1-based). Pages should be ordered sequentially for proper wizard flow",
+            "minimum": 1,
+            "keywords": ["order", "sequence", "position", "number"]
+          },
+          "buttons": {
+            "id": "buttons",
+            "type": "object",
+            "title": "Page Buttons",
+            "description": "Button configuration for this specific page",
+            "properties": {
+              "previous": {
+                "id": "previous",
+                "type": "boolean",
+                "title": "Show Previous Button",
+                "description": "Whether to show the 'Previous' button on this page",
+                "keywords": ["previous", "back", "navigation", "button"]
+              },
+              "next": {
+                "id": "next",
+                "type": "boolean",
+                "title": "Show Next Button",
+                "description": "Whether to show the 'Next' button on this page",
+                "keywords": ["next", "forward", "navigation", "button"]
+              },
+              "save": {
+                "id": "save",
+                "type": "boolean",
+                "title": "Show Save Button",
+                "description": "Whether to show the 'Save/Submit' button on this page",
+                "keywords": ["save", "submit", "action", "button"]
+              }
+            },
+            "additionalProperties": false,
+            "keywords": ["buttons", "navigation", "actions"]
+          }
+        },
+        "required": ["id", "order"],
+        "additionalProperties": false,
+        "oneOf": [
+          { "required": ["id", "order", "schemaUrl"] },
+          { "required": ["id", "order", "schemaId"] }
+        ]
+      },
+      "minItems": 1
+    },
+    "journeyId": {
+      "id": "journeyId",
+      "type": "string",
+      "title": "Journey ID",
+      "description": "Optional identifier to group related wizards in a user journey",
+      "keywords": ["journey", "flow", "process"]
+    }
+  },
+  "required": ["id", "type", "pages"],
+  "additionalProperties": false
+}

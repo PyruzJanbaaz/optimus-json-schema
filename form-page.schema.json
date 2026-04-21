@@ -1,0 +1,299 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "id": "form-page",
+  "title": "Form Page Schema",
+  "description": "Schema representing a single page within a form or wizard. Contains fields, rules, and events",
+  "type": "object",
+  "properties": {
+    "id": {
+      "id": "id",
+      "type": "string",
+      "title": "Page ID",
+      "description": "Unique identifier for the page (kebab-case recommended)",
+      "pattern": "^[a-z0-9-]+$",
+      "minLength": 1,
+      "maxLength": 100,
+      "keywords": ["id", "identifier", "page name", "page id"]
+    },
+    "title": {
+      "id": "title",
+      "type": "string",
+      "title": "Page Title",
+      "description": "Display title for the page",
+      "minLength": 1,
+      "maxLength": 100,
+      "keywords": ["title", "name", "heading", "page title"]
+    },
+    "type": {
+      "id": "type",
+      "type": "string",
+      "title": "Page Type",
+      "description": "Type identifier for the page (typically 'form')",
+      "enum": ["form"],
+      "default": "form",
+      "keywords": ["type", "page type"]
+    },
+    "description": {
+      "id": "description",
+      "type": "string",
+      "title": "Page Description",
+      "description": "Optional description or instruction text for the page",
+      "keywords": ["description", "instruction", "help text"]
+    },
+    "fields": {
+      "id": "fields",
+      "type": "array",
+      "title": "Form Fields",
+      "description": "Array of form field definitions for this page",
+      "items": {
+        "type": "object",
+        "properties": {
+          "key": {
+            "id": "key",
+            "type": "string",
+            "title": "Field Key",
+            "description": "Unique identifier for the field (camelCase, no spaces). Used to reference field values in forms",
+            "pattern": "^[a-zA-Z][a-zA-Z0-9]*$",
+            "keywords": ["key", "identifier", "field name", "property"]
+          },
+          "type": {
+            "id": "type",
+            "type": "string",
+            "title": "Field Type",
+            "description": "Type of input control for this field",
+            "enum": ["text", "number", "password", "select", "checkbox", "textarea"],
+            "keywords": ["type", "input type", "field type", "control type"]
+          },
+          "label": {
+            "id": "label",
+            "type": "string",
+            "title": "Field Label",
+            "description": "Display label shown to the user for this field",
+            "keywords": ["label", "title", "display name", "caption"]
+          },
+          "required": {
+            "id": "required",
+            "type": "boolean",
+            "title": "Required Flag",
+            "description": "Whether this field is mandatory for form submission",
+            "default": false,
+            "keywords": ["required", "mandatory", "validation", "constraint"]
+          },
+          "disabled": {
+            "id": "disabled",
+            "type": "boolean",
+            "title": "Disabled Flag",
+            "description": "Whether this field is disabled and cannot be edited",
+            "default": false,
+            "keywords": ["disabled", "enabled", "editable", "state"]
+          },
+          "placeholder": {
+            "id": "placeholder",
+            "type": "string",
+            "title": "Placeholder Text",
+            "description": "Placeholder text shown in empty field (text, number, password, textarea types)",
+            "keywords": ["placeholder", "hint", "example", "sample"]
+          },
+          "description": {
+            "id": "description",
+            "type": "string",
+            "title": "Field Description",
+            "description": "Helper text providing additional information about the field",
+            "keywords": ["description", "help text", "helper", "info"]
+          },
+          "value": {
+            "id": "value",
+            "title": "Field Value",
+            "description": "Default value for the field",
+            "oneOf": [
+              { "type": "string" },
+              { "type": "number" },
+              { "type": "boolean" },
+              { "type": "array", "items": { "oneOf": [{"type": "string"}, {"type": "number"}] } }
+            ],
+            "keywords": ["value", "default", "initial value"]
+          },
+          "validators": {
+            "id": "validators",
+            "type": "object",
+            "title": "Field Validators",
+            "description": "Validation rules applied to this field",
+            "properties": {
+              "minLength": {
+                "id": "minLength",
+                "type": "integer",
+                "title": "Minimum Length",
+                "description": "Minimum character length for text fields",
+                "minimum": 0,
+                "keywords": ["minLength", "min", "length constraint", "validation"]
+              },
+              "maxLength": {
+                "id": "maxLength",
+                "type": "integer",
+                "title": "Maximum Length",
+                "description": "Maximum character length for text fields",
+                "minimum": 1,
+                "keywords": ["maxLength", "max", "length constraint", "validation"]
+              },
+              "min": {
+                "id": "min",
+                "type": "number",
+                "title": "Minimum Value",
+                "description": "Minimum numeric value for number fields",
+                "keywords": ["min", "minimum", "value constraint", "validation"]
+              },
+              "max": {
+                "id": "max",
+                "type": "number",
+                "title": "Maximum Value",
+                "description": "Maximum numeric value for number fields",
+                "keywords": ["max", "maximum", "value constraint", "validation"]
+              },
+              "pattern": {
+                "id": "pattern",
+                "type": "string",
+                "title": "Regex Pattern",
+                "description": "Regular expression pattern for string validation (e.g., email, phone)",
+                "keywords": ["pattern", "regex", "validation", "format"]
+              }
+            },
+            "additionalProperties": false
+          },
+          "options": {
+            "id": "options",
+            "type": "array",
+            "title": "Select Options",
+            "description": "Available options for select and checkbox fields",
+            "items": {
+              "type": "object",
+              "properties": {
+                "value": {
+                  "id": "value",
+                  "title": "Option Value",
+                  "description": "Value to be stored when option is selected",
+                  "oneOf": [
+                    { "type": "string" },
+                    { "type": "number" }
+                  ],
+                  "keywords": ["value", "option value"]
+                },
+                "label": {
+                  "id": "label",
+                  "type": "string",
+                  "title": "Option Label",
+                  "description": "Display text for the option",
+                  "keywords": ["label", "text", "display text"]
+                }
+              },
+              "required": ["value", "label"],
+              "additionalProperties": false
+            },
+            "keywords": ["options", "choices", "values", "select options"]
+          }
+        },
+        "required": ["key", "type", "label"]
+      },
+      "minItems": 1
+    },
+    "rules": {
+      "id": "rules",
+      "type": "array",
+      "title": "Conditional Rules",
+      "description": "Conditional rules for field visibility, requirements, and state management. See conditional-rule.schema.json for detailed property definitions",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "id": "id",
+            "type": "string",
+            "title": "Rule ID",
+            "description": "Unique identifier for the conditional rule",
+            "keywords": ["id", "identifier", "rule name"]
+          },
+          "when": {
+            "id": "when",
+            "type": "object",
+            "title": "Condition",
+            "description": "Condition that triggers this rule (see conditional-rule.schema.json for structure)"
+          },
+          "then": {
+            "id": "then",
+            "type": "array",
+            "title": "Actions",
+            "description": "Actions to execute when condition is true (see conditional-rule.schema.json for structure)",
+            "minItems": 1
+          }
+        },
+        "required": ["id", "when", "then"]
+      }
+    },
+    "events": {
+      "id": "events",
+      "type": "array",
+      "title": "Form Events",
+      "description": "Events triggered by user actions and their corresponding actions. See form-event.schema.json for detailed property definitions",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "id": "id",
+            "type": "string",
+            "title": "Event ID",
+            "description": "Unique identifier for the event",
+            "keywords": ["id", "identifier", "event name"]
+          },
+          "trigger": {
+            "id": "trigger",
+            "type": "object",
+            "title": "Event Trigger",
+            "description": "Configuration for when this event is triggered (see form-event.schema.json for structure)"
+          },
+          "actions": {
+            "id": "actions",
+            "type": "array",
+            "title": "Event Actions",
+            "description": "Actions to execute when event is triggered (see form-event.schema.json for structure)",
+            "minItems": 1
+          }
+        },
+        "required": ["id", "trigger", "actions"]
+      }
+    },
+    "buttons": {
+      "id": "buttons",
+      "type": "object",
+      "title": "Page Navigation Buttons",
+      "description": "Configuration for navigation buttons on this page",
+      "properties": {
+        "previous": {
+          "id": "previous",
+          "type": "boolean",
+          "title": "Show Previous Button",
+          "description": "Whether to show the 'Previous' button",
+          "default": true,
+          "keywords": ["previous", "back", "navigation", "button"]
+        },
+        "next": {
+          "id": "next",
+          "type": "boolean",
+          "title": "Show Next Button",
+          "description": "Whether to show the 'Next' button",
+          "default": true,
+          "keywords": ["next", "forward", "navigation", "button"]
+        },
+        "save": {
+          "id": "save",
+          "type": "boolean",
+          "title": "Show Save Button",
+          "description": "Whether to show the 'Save/Submit' button",
+          "default": false,
+          "keywords": ["save", "submit", "action", "button"]
+        }
+      },
+      "additionalProperties": false,
+      "keywords": ["buttons", "navigation", "actions"]
+    }
+  },
+  "required": ["id", "title", "fields"],
+  "additionalProperties": false
+}
